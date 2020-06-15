@@ -36,23 +36,47 @@ const Mutation = {
 
   uploadFile: async (parent, args, ctx, info) => {
     const { upload } = args;
-    const { createReadStream, filename, mimetype } = await upload;
-    const stream = createReadStream();
+    try {
+      const { createReadStream, filename, mimetype, encoding } = await upload;
+      if (!createReadStream) console.log("Not create read stream");
+      const stream = createReadStream();
 
-    const relativePath = `/images/${uuidv4()}${filename}`;
-    console.log(
-      `filename: ${filename}, mimetype: ${mimetype}, relativePath: ${relativePath}`
-    );
-    const path = `/var/www${relativePath}`;
-    const writeStream = fs.createWriteStream(path);
-    stream.pipe(writeStream);
-    return relativePath;
+      const relativePath = `/images/${uuidv4()}${filename}`;
+      const path = `/var/www${relativePath}`;
+      await new Promise((resolve, reject) => {
+        stream
+          .on("error", (error) => {
+            console.log(error);
+            reject(error);
+          })
+          .pipe(fs.createWriteStream(path))
+          .on("error", reject)
+          .on("finish", resolve);
+      });
+      console.log(`${path} written`);
+      return {
+        url: relativePath,
+        mimetype,
+        encoding,
+      };
+    } catch (e) {
+      throw new ApolloError(e);
+    }
   },
 
   addRecipe: async (parent, args, ctx, info) => {
-    const { title, description, ingredients, steps, mainImage, images } = args;
+    const {
+      title,
+      description,
+      ingredients,
+      steps,
+      mainImage,
+      images,
+      userid,
+      token,
+    } = args;
 
-    const { db, userid, token } = ctx;
+    const { db } = ctx;
     const collectionRecipes = db.collection("recipes");
     const collectionIngredients = db.collection("ingredients");
     const query = { _id: { $in: ingredients.map((ing) => ObjectId(ing)) } };

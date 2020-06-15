@@ -2,7 +2,7 @@ import { gql } from "apollo-server";
 
 const typeDefs = gql`
   type File {
-    filename: String!
+    url: String!
     mimetype: String!
     encoding: String!
   }
@@ -11,10 +11,10 @@ const typeDefs = gql`
     title: String!
     description: String!
     steps: [String!]
-    images: [String!]
+    images: [File!]
     date: String!
     ingredients: [Ingredient!]!
-    mainImage: String!
+    mainImage: File!
   }
 
   type Ingredient {
@@ -31,18 +31,20 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    uploadFile(upload: Upload!): String!
+    uploadFile(userid: ID!, token: String!, upload: Upload!): File!
     addRecipe(
+      userid: ID!
+      token: String!
       title: String!
       description: String!
       steps: [String!]!
-      iamges: [String!]!
+      images: [File!]!
       ingredients: [ID!]!
-      mainImage: String!
+      mainImage: File!
     ): Recipe!
-    addIngredient(name: String!): Ingredient!
-    removeRecipe(id: ID!): Recipe!
-    removeIngredient(id: ID!): Ingredient!
+    addIngredient(userid: ID!, token: String!, name: String!): Ingredient!
+    removeRecipe(userid: ID!, token: String!, id: ID!): Recipe!
+    removeIngredient(userid: ID!, token: String!, id: ID!): Ingredient!
   }
 `;
 
