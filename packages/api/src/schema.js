@@ -1,6 +1,11 @@
 import { gql } from "apollo-server";
 
 const typeDefs = gql`
+  type User {
+    _id: ID!
+    user: String!
+    token: String!
+  }
   type File {
     url: String!
     mimetype: String!
@@ -31,6 +36,9 @@ const typeDefs = gql`
   }
 
   type Mutation {
+    login(user: String!, pwd: String!): User!
+    logout(userid: ID!, token: String!): User!
+    signin(usr: String!, pwd: String): User!
     uploadFile(userid: ID!, token: String!, upload: Upload!): File!
     addRecipe(
       userid: ID!
