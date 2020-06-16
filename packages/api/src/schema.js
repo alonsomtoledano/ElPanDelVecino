@@ -20,6 +20,7 @@ const typeDefs = gql`
     date: String!
     ingredients: [Ingredient!]!
     mainImage: File!
+    author: ID!
   }
 
   type Ingredient {
@@ -38,7 +39,7 @@ const typeDefs = gql`
   type Mutation {
     login(user: String!, pwd: String!): User!
     logout(userid: ID!, token: String!): User!
-    signin(usr: String!, pwd: String): User!
+    signin(usr: String!, pwd: String!): User!
     uploadFile(userid: ID!, token: String!, upload: Upload!): File!
     addRecipe(
       userid: ID!

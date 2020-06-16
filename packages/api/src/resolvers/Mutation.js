@@ -17,6 +17,66 @@ const removeElement = async (id, db, collectionName) => {
 };
 
 const Mutation = {
+  signin: async (parent, args, ctx, info) => {
+    try {
+      const { db } = ctx;
+      const { usr, pwd } = args;
+      const collection = db.collection("users");
+      const userData = await collection.findOne({ usr });
+      if (userData) {
+        throw new ApolloError("User already registered");
+      }
+
+      const res = await collection.insertOne({
+        usr,
+        pwd,
+        authorized: false,
+        token: null,
+      });
+      return res;
+    } catch (e) {
+      throw new ApolloError(e);
+    }
+  },
+
+  login: async (parent, args, ctx, info) => {
+    try {
+      const { db } = ctx;
+      const { usr, pwd } = args;
+      const collection = db.collection("users");
+      const userData = await collection.findOne({ usr, pwd, authorized: true });
+      if (!userData) {
+        throw new ApolloError("Non existent or not authorized user");
+      }
+
+      const token = uuidv4();
+      await collection.updateOne({ _id: userData._id }, { $set: { token } });
+      return { usr, token, _id: userData._id };
+    } catch (e) {
+      throw new ApolloError(e);
+    }
+  },
+
+  logout: async (parent, args, ctx, info) => {
+    try {
+      const { db } = ctx;
+      const { usr, token } = args;
+      const collection = db.collection("users");
+      const userData = await collection.findOne({ usr, token });
+      if (!userData) {
+        throw new ApolloError("Non existent or not logged");
+      }
+
+      await collection.updateOne(
+        { _id: userData._id },
+        { $set: { token: null } }
+      );
+      return { usr, token, _id: userData._id };
+    } catch (e) {
+      throw new ApolloError(e);
+    }
+  },
+
   addIngredient: async (parent, args, ctx, info) => {
     const { db } = ctx;
     const { name, userid, token } = args;
@@ -99,6 +159,7 @@ const Mutation = {
       mainImage,
       steps,
       images,
+      author: userid,
     };
 
     try {
