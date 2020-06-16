@@ -102,7 +102,7 @@ const Mutation = {
       const stream = createReadStream();
 
       const relativePath = `/images/${uuidv4()}${filename}`;
-      const path = `/usr/lib/app${relativePath}`;
+      const path = `./dist${relativePath}`;
       await new Promise((resolve, reject) => {
         stream
           .on("error", (error) => {
