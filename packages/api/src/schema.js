@@ -6,6 +6,13 @@ const typeDefs = gql`
     user: String!
     token: String!
   }
+
+  input FileInput {
+    url: String!
+    mimetype: String!
+    encoding: String!
+  }
+
   type File {
     url: String!
     mimetype: String!
@@ -47,9 +54,9 @@ const typeDefs = gql`
       title: String!
       description: String!
       steps: [String!]!
-      images: [File!]!
+      images: [FileInput!]!
       ingredients: [ID!]!
-      mainImage: File!
+      mainImage: FileInput!
     ): Recipe!
     addIngredient(userid: ID!, token: String!, name: String!): Ingredient!
     removeRecipe(userid: ID!, token: String!, id: ID!): Recipe!
