@@ -1,4 +1,3 @@
-import "babel-polyfill";
 import { ObjectId } from "mongodb";
 import { ApolloError } from "apollo-server";
 import * as fs from "fs";

@@ -1,7 +1,5 @@
 import { MongoClient } from "mongodb";
 
-import "babel-polyfill";
-
 /**
  * Connects to MongoDB Server and returns connected client
  * @param {string} usr MongoDB Server user

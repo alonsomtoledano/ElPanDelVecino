@@ -1,11 +1,10 @@
-import "babel-polyfill";
-import { ApolloServer } from "apollo-server";
+import { ApolloServer, gql } from "apollo-server";
+import * as fs from "fs";
 import connectToDb from "./db";
 import Query from "./resolvers/Query";
 import Mutation from "./resolvers/Mutation";
 import Ingredient from "./resolvers/Ingredient";
 import Recipe from "./resolvers/Recipe";
-import typeDefs from "./schema";
 import dotenv from "dotenv";
 dotenv.config({ path: "./.env" });
 
@@ -13,6 +12,10 @@ const userName = process.env.MONGO_DB_USERNAME;
 const pwd = process.env.MONGO_DB_PASSWORD;
 const url = process.env.MONGO_DB_URL;
 const dbName = process.env.MONGO_DB_NAME;
+
+const typeDefs = gql`
+  ${fs.readFileSync(__dirname.concat("/schemas/schema.graphql"), "utf8")}
+`;
 
 /**
  * Starts GraphQL server, with MongoDB Client in context Object
@@ -43,7 +46,7 @@ const runGraphQLServer = function (context) {
     })
     .catch((e) => {
       console.info(e);
-      server.close();
+      server.stop();
     });
 };
 

@@ -1,6 +1,3 @@
-import "babel-polyfill";
-import { ObjectID } from "mongodb";
-
 const Recipe = {
   ingredients: async (parent, args, ctx, info) => {
     const { db } = ctx;

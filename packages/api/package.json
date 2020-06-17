@@ -2,27 +2,33 @@
   "name": "ElPanDelVecino",
   "version": "1.0.0",
   "description": "",
-  "main": "src/app.js",
+  "main": "src/app.ts",
   "scripts": {
-    "build": "babel src --out-dir dist",
-    "dev": "nodemon --watch src --wath src/schema.gql --exec 'yarn run build && node ./dist/app.js'",
-    "start": "yarn run build && node ./dist/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "ts-node ./src/app.ts",
+    "start-inspect": "node --inspect=0.0.0.0 -r ts-node/register ./src/app.ts",
+    "dev": "./node_modules/nodemon/bin/nodemon.js",
+    "dev-inspect": "nodemon --exec yarn run start-inspect",
+    "codegen": "graphql-codegen --config codegen.yml"
   },
   "keywords": [],
   "author": "Alberto Valero",
   "license": "Apache",
   "devDependencies": {
-    "@babel/cli": "^7.10.1",
-    "@babel/core": "^7.10.2",
-    "@babel/node": "^7.10.1",
-    "@babel/preset-env": "^7.10.2",
-    "babel-polyfill": "^6.26.0",
-    "nodemon": "^1.19.4"
+    "@graphql-codegen/cli": "1.15.3",
+    "@graphql-codegen/typescript": "1.15.3",
+    "@graphql-codegen/typescript-mongodb": "1.15.3",
+    "@graphql-codegen/typescript-resolvers": "1.15.3",
+    "nodemon": "^1.19.4",
+    "ts-node": "^8.10.2",
+    "tslint": "^6.1.2",
+    "typescript": "^3.9.5"
   },
   "dependencies": {
+    "@graphql-tools/graphql-file-loader": "^6.0.10",
+    "@graphql-tools/load": "^6.0.10",
     "apollo-server": "^2.14.1",
     "dotenv": "^8.2.0",
+    "graphql": "^15.1.0",
     "mongodb": "^3.5.8",
     "request": "^2.88.2",
     "uuid": "^8.1.0"

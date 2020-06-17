@@ -1,5 +1,5 @@
-import "babel-polyfill";
 import { ObjectID } from "mongodb";
+import { Query, QueryRecipeArgs } from "../generated/graphql";
 
 const Query = {
   recipes: async (parent, args, ctx, info) => {

@@ -1,5 +1,5 @@
-import "babel-polyfill";
-import { ObjectID } from "mongodb";
+import "../generated/graphql";
+import { Ingredient } from "../generated/graphql";
 
 const Ingredient = {
   recipes: async (parent, args, ctx, info) => {
