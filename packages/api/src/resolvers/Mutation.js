@@ -106,6 +106,8 @@ const Mutation = {
       const url = `#url#/images/${__fileName}`;
       const path = `./images/${__filename}`;
 
+      console.log(`path: ${path}`);
+
       await new Promise((resolve, reject) => {
         stream
           .on("error", (error) => {
