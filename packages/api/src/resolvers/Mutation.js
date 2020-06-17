@@ -101,8 +101,10 @@ const Mutation = {
       if (!createReadStream) console.log("Not create read stream");
       const stream = createReadStream();
 
-      const relativePath = `/images/${uuidv4()}${filename}`;
-      const path = `./dist${relativePath}`;
+      const __fileName = `${uuidv4()}${filename}`;
+      const url = `#url#/images/${__fileName}`;
+      const path = `./images/${__filename}`;
+
       await new Promise((resolve, reject) => {
         stream
           .on("error", (error) => {
@@ -115,7 +117,7 @@ const Mutation = {
       });
       console.log(`${path} written`);
       return {
-        url: relativePath,
+        url,
         mimetype,
         encoding,
       };
