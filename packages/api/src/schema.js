@@ -44,7 +44,7 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    login(user: String!, pwd: String!): User!
+    login(usr: String!, pwd: String!): User!
     logout(userid: ID!, token: String!): User!
     signin(usr: String!, pwd: String!): User!
     uploadFile(userid: ID!, token: String!, upload: Upload!): File!
