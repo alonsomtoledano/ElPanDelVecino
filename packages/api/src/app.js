@@ -9,7 +9,7 @@ import typeDefs from "./schema";
 import dotenv from "dotenv";
 dotenv.config({ path: "./.env" });
 
-const usr = process.env.MONGO_DB_USERNAME;
+const userName = process.env.MONGO_DB_USERNAME;
 const pwd = process.env.MONGO_DB_PASSWORD;
 const url = process.env.MONGO_DB_URL;
 const dbName = process.env.MONGO_DB_NAME;
@@ -48,7 +48,7 @@ const runGraphQLServer = function (context) {
 };
 
 const startServer = async function () {
-  const { client, db } = await connectToDb(usr, pwd, url, dbName);
+  const { client, db } = await connectToDb(userName, pwd, url, dbName);
   console.info("Connected to Mongo DB");
   try {
     runGraphQLServer({ client, db });

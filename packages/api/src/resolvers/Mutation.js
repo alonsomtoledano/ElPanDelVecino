@@ -20,15 +20,15 @@ const Mutation = {
   signin: async (parent, args, ctx, info) => {
     try {
       const { db } = ctx;
-      const { usr, pwd } = args;
+      const { userName, pwd } = args;
       const collection = db.collection("users");
-      const userData = await collection.findOne({ usr });
+      const userData = await collection.findOne({ userName });
       if (userData) {
         throw new ApolloError("User already registered");
       }
 
       const res = await collection.insertOne({
-        usr,
+        userName,
         pwd,
         authorized: false,
         token: null,
@@ -43,16 +43,20 @@ const Mutation = {
   login: async (parent, args, ctx, info) => {
     try {
       const { db } = ctx;
-      const { usr, pwd } = args;
+      const { userName, pwd } = args;
       const collection = db.collection("users");
-      const userData = await collection.findOne({ usr, pwd, authorized: true });
+      const userData = await collection.findOne({
+        userName,
+        pwd,
+        authorized: true,
+      });
       if (!userData) {
-        throw new ApolloError("Non existent or not authorized user");
+        throw new ApolloError("Non existent or not authorized userName");
       }
 
       const token = uuidv4();
       await collection.updateOne({ _id: userData._id }, { $set: { token } });
-      return { usr, token, _id: userData._id };
+      return { userName, token, _id: userData._id };
     } catch (e) {
       throw new ApolloError(e);
     }
@@ -61,9 +65,9 @@ const Mutation = {
   logout: async (parent, args, ctx, info) => {
     try {
       const { db } = ctx;
-      const { usr, token } = args;
+      const { userName, token } = args;
       const collection = db.collection("users");
-      const userData = await collection.findOne({ usr, token });
+      const userData = await collection.findOne({ userName, token });
       if (!userData) {
         throw new ApolloError("Non existent or not logged");
       }
@@ -72,7 +76,7 @@ const Mutation = {
         { _id: userData._id },
         { $set: { token: null } }
       );
-      return { usr, token, _id: userData._id };
+      return { userName, token, _id: userData._id };
     } catch (e) {
       throw new ApolloError(e);
     }
