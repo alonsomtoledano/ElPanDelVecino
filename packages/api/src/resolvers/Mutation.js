@@ -102,9 +102,9 @@ const Mutation = {
       if (!createReadStream) console.log("Not create read stream");
       const stream = createReadStream();
 
-      const __fileName = `${uuidv4()}${filename}`;
-      const url = `#url#/images/${__fileName}`;
-      const path = `./images/${__filename}`;
+      const _fileName = `${uuidv4()}${filename}`;
+      const url = `#url#/images/${_fileName}`;
+      const path = `./images/${_fileName}`;
 
       console.log(`path: ${path}`);
 
