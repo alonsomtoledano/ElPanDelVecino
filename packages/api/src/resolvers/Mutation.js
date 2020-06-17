@@ -64,9 +64,13 @@ const Mutation = {
   logout: async (parent, args, ctx, info) => {
     try {
       const { db } = ctx;
-      const { userName, token } = args;
+      const { userid, token } = args;
       const collection = db.collection("users");
-      const userData = await collection.findOne({ userName, token });
+      console.log(userid);
+      const userData = await collection.findOne({
+        _id: ObjectId(userid),
+        token,
+      });
       if (!userData) {
         throw new ApolloError("Non existent or not logged");
       }
@@ -75,7 +79,7 @@ const Mutation = {
         { _id: userData._id },
         { $set: { token: null } }
       );
-      return { userName, token, _id: userData._id };
+      return { ...userData, token: null };
     } catch (e) {
       throw new ApolloError(e);
     }
