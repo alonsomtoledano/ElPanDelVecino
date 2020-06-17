@@ -103,10 +103,8 @@ const Mutation = {
       const stream = createReadStream();
 
       const _fileName = `${uuidv4()}${filename}`;
-      const url = `#url#/images/${_fileName}`;
+      const url = `/images/${_fileName}`;
       const path = `./images/${_fileName}`;
-
-      console.log(`path: ${path}`);
 
       await new Promise((resolve, reject) => {
         stream
