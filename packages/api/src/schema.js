@@ -4,7 +4,7 @@ const typeDefs = gql`
   type User {
     _id: ID!
     userName: String!
-    token: String!
+    token: String
   }
 
   input FileInput {

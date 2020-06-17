@@ -33,7 +33,6 @@ const Mutation = {
         authorized: false,
         token: null,
       });
-      console.log(res);
       return res.ops[0];
     } catch (e) {
       throw new ApolloError(e);
