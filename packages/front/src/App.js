@@ -24,11 +24,11 @@ function App() {
         <Switch>
 
           <Route exact path="/">
-            <Signin />
+            <Home />
           </Route>
 
           <Route path="/admin">
-            <Admin />
+            <Signin />
           </Route>
 
         </Switch>

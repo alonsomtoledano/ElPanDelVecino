@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useMutation, gql, } from "@apollo/client";
 
 import "./styles.css";
@@ -15,12 +15,18 @@ const Signin = () => {
     let inputUserName;
     let inputPwd;
 
-    const [signin, { data }] = useMutation(SIGNIN);
+    const [error, setError] = useState(null);
+    const [signin, { data }] = useMutation(SIGNIN, {
+        onError(err) {
+            setError(err.message);
+            console.log(err.message);
+        }
+    })
 
     return (
         <div className="Signin">
             <form className="ModuleSignin"
-                onSubmit={e => {
+                onSubmit = { e => {
                     e.preventDefault();
                     inputUserName = document.getElementById("inputUserName").value;
                     inputPwd = document.getElementById("inputPwd").value;
@@ -36,9 +42,13 @@ const Signin = () => {
                     <input required id="inputPwd" type="password" className="Input"/>
                 </div>
 
+                {data ? <div className="Text">Usuario {data.signin.userName} creado</div> : null}
+                {error ? <div>{error}</div> : null}
+
                 <button className="Button" type="submit">Crear cuenta</button>
 
                 <div className="Button">Atrás</div>
+
             </form>
         </div>
     )
