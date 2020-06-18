@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useMutation, gql, } from "@apollo/client";
+import { useRecoilState } from "recoil";
 
 import "./styles.css";
+import { adminModeAtom } from "../recoil/atoms";
 
 const SIGNIN = gql`
     mutation signin($userName: String!, $pwd: String!) {
@@ -12,6 +14,8 @@ const SIGNIN = gql`
 `;
 
 const Signin = () => {
+    const [adminMode, setAdminMode] = useRecoilState(adminModeAtom);
+
     let inputUserName;
     let inputPwd;
 
@@ -47,7 +51,7 @@ const Signin = () => {
 
                 <button className="Button" type="submit">Crear cuenta</button>
 
-                <div className="Button">Atrás</div>
+                <div className="Button" onClick={() => setAdminMode(0)}>Atrás</div>
 
             </form>
         </div>
