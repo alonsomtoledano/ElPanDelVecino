@@ -40,6 +40,11 @@
     box-shadow: 3px 3px 3px grey;
 }
 
+.Login {
+    display: flex;
+    justify-content: center;
+}
+
 .Signin {
     display: flex;
     justify-content: center;
