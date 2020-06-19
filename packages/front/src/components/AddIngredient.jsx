@@ -27,7 +27,7 @@ const AddIngredient = () => {
 
     return (
         <div className="AddIngredient">
-            <form className="ModuleSignin"
+            <form className="ModuleAddIngredient"
                 onSubmit = { e => {
                     e.preventDefault();
                     inputName = document.getElementById("inputName").value;
