@@ -5,6 +5,7 @@ import "./styles.css";
 import { adminModeAtom } from "../recoil/atoms";
 import Login from "./Login";
 import Signin from "./Signin";
+import AddIngredient from "./AddIngredient";
 
 const Admin = () => {
     const [adminMode, setAdminMode] = useRecoilState(adminModeAtom);
@@ -38,7 +39,7 @@ const Admin = () => {
     } else if (adminMode === 4) {
 
     } else if (adminMode === 5) {
-
+        content = <AddIngredient />
     } else if (adminMode === 6) {
 
     } 
