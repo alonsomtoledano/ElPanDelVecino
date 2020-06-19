@@ -14,7 +14,7 @@ const SIGNIN = gql`
 `;
 
 const Signin = () => {
-    const [adminMode, setAdminMode] = useRecoilState(adminModeAtom);
+    const [, setAdminMode] = useRecoilState(adminModeAtom);
 
     let inputUserName;
     let inputPwd;
