@@ -1,25 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
+import React from "react";
+import { RecoilRoot } from "recoil";
+import { ApolloClient, ApolloProvider, HttpLink, InMemoryCache } from "@apollo/client";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
+import Home from "./components/Home";
+import Admin from "./components/Admin";
 import './App.css';
+
+const httpLink = new HttpLink ({
+  uri: "http://77.228.3.75:4000/",
+});
+
+const client = new ApolloClient ({
+  cache: new InMemoryCache(),
+  link : httpLink,
+});
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <RecoilRoot>
+      <ApolloProvider client={client}>
+        <Router>
+          <Switch>
+
+            <Route exact path="/">
+              <Home />
+            </Route>
+
+            <Route path="/admin">
+              <Admin />
+            </Route>
+
+          </Switch>
+        </Router>
+      </ApolloProvider>
+    </RecoilRoot>
   );
 }
 

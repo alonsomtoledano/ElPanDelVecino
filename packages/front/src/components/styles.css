@@ -1,0 +1,55 @@
+.Admin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Button {
+    display: flex;
+    justify-content: center;
+
+    border: 1px solid black;
+    border-radius: 5px;
+    font-size: 1.2em;
+    width: 150px;
+    margin: 10px;
+    padding: 5px;
+    box-shadow: 3px 3px 3px grey;
+    background-color: white;
+}
+
+.Button:hover {
+    cursor: pointer;
+    background-color: lightgray;
+}
+
+.Home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Input {
+    border: 1px solid black;
+    border-radius: 5px;
+    font-size: 1.2em;
+    width: 170px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 5px;
+    box-shadow: 3px 3px 3px grey;
+}
+
+.Login {
+    display: flex;
+    justify-content: center;
+}
+
+.Signin {
+    display: flex;
+    justify-content: center;
+}
+
+.Text {
+    font-size: 1.2em;
+}
