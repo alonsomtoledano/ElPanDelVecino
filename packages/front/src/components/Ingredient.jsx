@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useMutation, gql, } from "@apollo/client";
+import { useRecoilState } from "recoil";
 
 import "./styles.css";
+import { updateIngredientsAtom } from "../recoil/atoms";
 
 const REMOVE_INGREDIENT = gql`
     mutation removeIngredient($userid: ID!, $token: String!, $id: ID!) {
@@ -14,7 +16,9 @@ const REMOVE_INGREDIENT = gql`
 const Ingredient = props => {
     const {name, ingredientid} = props;
 
+    const [, setUpdateIngredients] = useRecoilState(updateIngredientsAtom);
     const [error, setError] = useState(null);
+
     const [removeIngredient, { data }] = useMutation(REMOVE_INGREDIENT, {
         onError(err) {
             setError(err.message);
@@ -22,18 +26,17 @@ const Ingredient = props => {
     })
 
     return (
-        <div className="Ingredient">
-            <form className="ModuleAddIngredient"
-                onSubmit = { e => {
-                    e.preventDefault();
-                    removeIngredient({ variables: { userid: localStorage.getItem("userid"), token: localStorage.getItem("token"), id: ingredientid }});
-                }}
-            >
-                <div className="Text">{name}</div>
-                <button className="Button" type="submit" onClick={() => {setError(null); }}>Borrar</button>
-                {error ? <div>{error}</div> : null}
-            </form>
-        </div>
+        <form className="Ingredient"
+            onSubmit = { e => {
+                e.preventDefault();
+                removeIngredient({ variables: { userid: localStorage.getItem("userid"), token: localStorage.getItem("token"), id: ingredientid }});
+                setUpdateIngredients(true);
+            }}
+        >
+            {name}
+            {error ? <div>{error}</div> : null}
+            <button className="Button" type="submit">Borrar</button>
+        </form>
     )
 }
 

@@ -3,7 +3,7 @@ import { useMutation, gql, } from "@apollo/client";
 import { useRecoilState } from "recoil";
 
 import "./styles.css";
-import { adminModeAtom } from "../recoil/atoms";
+import { adminModeAtom, updateIngredientsAtom } from "../recoil/atoms";
 
 const ADD_INGREDIENT = gql`
     mutation addIngredient($userid: ID!, $token: String!, $name: String!) {
@@ -15,10 +15,11 @@ const ADD_INGREDIENT = gql`
 
 const AddIngredient = () => {
     const [, setAdminMode] = useRecoilState(adminModeAtom);
+    const [, setUpdateIngredients] = useRecoilState(updateIngredientsAtom);
+    const [error, setError] = useState(null);
 
     let inputName;
 
-    const [error, setError] = useState(null);
     const [addIngredient, { data }] = useMutation(ADD_INGREDIENT, {
         onError(err) {
             setError(err.message);
@@ -32,6 +33,7 @@ const AddIngredient = () => {
                     e.preventDefault();
                     inputName = document.getElementById("inputName").value;
                     addIngredient({ variables: { userid: localStorage.getItem("userid"), token: localStorage.getItem("token"), name: inputName }});
+                    setUpdateIngredients(true);
                 }}
             >
                 <div className="IngredientName">
