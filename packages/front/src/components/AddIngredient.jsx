@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { useMutation, gql, } from "@apollo/client";
+import { useMutation, useQuery, gql } from "@apollo/client";
 import { useRecoilState } from "recoil";
 
 import "./styles.css";
-import { adminModeAtom, updateIngredientsAtom } from "../recoil/atoms";
+import { adminModeAtom } from "../recoil/atoms";
 
 const ADD_INGREDIENT = gql`
     mutation addIngredient($userid: ID!, $token: String!, $name: String!) {
@@ -15,7 +15,6 @@ const ADD_INGREDIENT = gql`
 
 const AddIngredient = () => {
     const [, setAdminMode] = useRecoilState(adminModeAtom);
-    const [, setUpdateIngredients] = useRecoilState(updateIngredientsAtom);
     const [error, setError] = useState(null);
 
     let inputName;
@@ -33,7 +32,6 @@ const AddIngredient = () => {
                     e.preventDefault();
                     inputName = document.getElementById("inputName").value;
                     addIngredient({ variables: { userid: localStorage.getItem("userid"), token: localStorage.getItem("token"), name: inputName }});
-                    setUpdateIngredients(true);
                 }}
             >
                 <div className="IngredientName">
@@ -44,9 +42,9 @@ const AddIngredient = () => {
                 {data ? <div className="Text">{data.addIngredient.name} añadido</div> : null}
                 {error ? <div>{error}</div> : null}
 
-                <button className="Button" type="submit" onClick={() => setError(null)}>Añadir</button>
+                <button className="Button" type="submit">Añadir</button>
 
-                <div className="Button" onClick={() => {setAdminMode(0); setError(null)}}>Atrás</div>
+                <div className="Button" onClick={() => setAdminMode(0)}>Atrás</div>
 
             </form>
         </div>

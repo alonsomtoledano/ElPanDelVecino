@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { useMutation, gql, } from "@apollo/client";
-import { useRecoilState } from "recoil";
 
 import "./styles.css";
-import { updateIngredientsAtom } from "../recoil/atoms";
 
 const REMOVE_INGREDIENT = gql`
     mutation removeIngredient($userid: ID!, $token: String!, $id: ID!) {
@@ -14,9 +12,8 @@ const REMOVE_INGREDIENT = gql`
 `;
 
 const Ingredient = props => {
-    const {name, ingredientid} = props;
+    const {name, ingredientid, refetch} = props;
 
-    const [, setUpdateIngredients] = useRecoilState(updateIngredientsAtom);
     const [error, setError] = useState(null);
 
     const [removeIngredient, { data }] = useMutation(REMOVE_INGREDIENT, {
@@ -30,7 +27,7 @@ const Ingredient = props => {
             onSubmit = { e => {
                 e.preventDefault();
                 removeIngredient({ variables: { userid: localStorage.getItem("userid"), token: localStorage.getItem("token"), id: ingredientid }});
-                setUpdateIngredients(true);
+                refetch();
             }}
         >
             {name}

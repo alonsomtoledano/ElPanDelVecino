@@ -6,6 +6,8 @@ import { adminModeAtom } from "../recoil/atoms";
 import Login from "./Login";
 import Signin from "./Signin";
 
+import Ingredients from "./Ingredients";
+import Recipes from "./Recipes";
 import AddIngredient from "./AddIngredient";
 import RemoveIngredient from "./RemoveIngredient";
 
@@ -21,14 +23,8 @@ const Admin = () => {
             <div className="Button" onClick={() => setAdminMode(2)}>Crear Usuario</div>
             {localStorage.getItem("token") ? 
                 <div>
-                    <div className="Text">Recetas</div>
-                    <div className="Button" onClick={() => setAdminMode(3)}>Añadir nueva</div>
-                    <div className="Button" onClick={() => setAdminMode(4)}>Listado</div>
-
-                    <div className="Text">Ingredientes</div>
-                    <div className="Button" onClick={() => setAdminMode(5)}>Añadir nuevo</div>
-                    <div className="Button" onClick={() => setAdminMode(6)}>Listado</div>
-
+                    <Recipes />
+                    <Ingredients />
                     <div className="Button" onClick={() => { setAdminMode(0); localStorage.removeItem("token")}}>Cerrar Sesión</div>
                 </div> : null}
         </div>
@@ -36,15 +32,11 @@ const Admin = () => {
         content = <Login />
     } else if (adminMode === 2) {
         content = <Signin />
-    } else if (adminMode === 3) {
-
-    } else if (adminMode === 4) {
-
     } else if (adminMode === 5) {
         content = <AddIngredient />
     } else if (adminMode === 6) {
         content = <RemoveIngredient />
-    } 
+    }
 
     return (
         <div>
