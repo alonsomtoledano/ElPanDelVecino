@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useMutation, gql, } from "@apollo/client";
+import { useMutation, useQuery, gql } from "@apollo/client";
 import { useRecoilState } from "recoil";
 
 import "./styles.css";
@@ -15,10 +15,10 @@ const ADD_INGREDIENT = gql`
 
 const AddIngredient = () => {
     const [, setAdminMode] = useRecoilState(adminModeAtom);
+    const [error, setError] = useState(null);
 
     let inputName;
 
-    const [error, setError] = useState(null);
     const [addIngredient, { data }] = useMutation(ADD_INGREDIENT, {
         onError(err) {
             setError(err.message);
@@ -27,7 +27,7 @@ const AddIngredient = () => {
 
     return (
         <div className="AddIngredient">
-            <form className="ModuleSignin"
+            <form className="ModuleAddIngredient"
                 onSubmit = { e => {
                     e.preventDefault();
                     inputName = document.getElementById("inputName").value;
@@ -42,9 +42,9 @@ const AddIngredient = () => {
                 {data ? <div className="Text">{data.addIngredient.name} añadido</div> : null}
                 {error ? <div>{error}</div> : null}
 
-                <button className="Button" type="submit" onClick={() => setError(null)}>Añadir</button>
+                <button className="Button" type="submit">Añadir</button>
 
-                <div className="Button" onClick={() => {setAdminMode(0); setError(null)}}>Atrás</div>
+                <div className="Button" onClick={() => setAdminMode(0)}>Atrás</div>
 
             </form>
         </div>
