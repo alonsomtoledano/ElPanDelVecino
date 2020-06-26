@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { useMutation, useQuery, gql } from "@apollo/client";
+import { useMutation, gql } from "@apollo/client";
 import { useRecoilState } from "recoil";
 
 import "./styles.css";
 import { adminModeAtom } from "../recoil/atoms";
+import { INGREDIENTS } from "./RemoveIngredient";
 
 const ADD_INGREDIENT = gql`
     mutation addIngredient($userid: ID!, $token: String!, $name: String!) {
@@ -20,6 +21,8 @@ const AddIngredient = () => {
     let inputName;
 
     const [addIngredient, { data }] = useMutation(ADD_INGREDIENT, {
+        refetchQueries: [{ query: INGREDIENTS }],
+
         onError(err) {
             setError(err.message);
         }
@@ -32,6 +35,7 @@ const AddIngredient = () => {
                     e.preventDefault();
                     inputName = document.getElementById("inputName").value;
                     addIngredient({ variables: { userid: localStorage.getItem("userid"), token: localStorage.getItem("token"), name: inputName }});
+                    setError(null);
                 }}
             >
                 <div className="IngredientName">

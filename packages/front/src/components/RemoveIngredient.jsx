@@ -6,7 +6,7 @@ import "./styles.css";
 import { adminModeAtom } from "../recoil/atoms";
 import Ingredient from "./Ingredient";
 
-const INGREDIENTS = gql`
+export const INGREDIENTS = gql`
     query ingredients {
         ingredients {
             _id
@@ -16,10 +16,10 @@ const INGREDIENTS = gql`
 `;
 
 const RemoveIngredient = () => {
-    const [adminMode, setAdminMode] = useRecoilState(adminModeAtom);
+    const [, setAdminMode] = useRecoilState(adminModeAtom);
     const [error, setError] = useState(null);
 
-    const { loading, refetch, data } = useQuery(INGREDIENTS, {
+    const { loading, data } = useQuery(INGREDIENTS, {
         onError(err) {
             setError(err.message);
         }
@@ -30,13 +30,12 @@ const RemoveIngredient = () => {
     let listIngredients;
     if (data) {
         listIngredients = data.ingredients.map(obj => {
-            return <Ingredient name={obj.name} ingredientid={obj._id} refetch={refetch} key={obj._id}/>
+            return <Ingredient name={obj.name} ingredientid={obj._id} key={obj._id}/>
         })
     }
 
     return (
         <div className="RemoveIngredient">
-            <div className="Button" onClick={() => refetch()}>Refetch</div>
             {listIngredients}
             {error ? <div>{error}</div> : null}
             <div className="Button" onClick={() => setAdminMode(0)}>Atrás</div>
