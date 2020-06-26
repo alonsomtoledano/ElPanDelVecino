@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
+import gql from "graphql-tag";
 
 const uploadFileMutation = gql`
   mutation UploadFile($file: Upload!) {
@@ -11,7 +11,7 @@ const uploadFileMutation = gql`
 
 export const UploadFile = () => {
   const [uploadFile] = useMutation(uploadFileMutation, {});
-  
+
   const onDrop = useCallback(
     ([file]) => {
       uploadFile({ variables: { file } });

@@ -1,16 +1,10 @@
 import React from "react";
 import { RecoilRoot } from "recoil";
-// import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import ApolloClient from "apollo-client";
+import { InMemoryCache } from "apollo-cache-inmemory";
+import { ApolloProvider } from "@apollo/react-hooks";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { createUploadLink } from "apollo-upload-client";
-
-import { ApolloClient } from "@apollo/client";
-import { ApolloProvider } from "@apollo/client";
-import { InMemoryCache } from "@apollo/client";
-
-// import ApolloClient from "apollo-client";
-// import { ApolloProvider } from "@apollo/react-hooks";
-// import { InMemoryCache } from "apollo-cache-inmemory";
 
 import Home from "./components/Home";
 import Admin from "./components/Admin";
