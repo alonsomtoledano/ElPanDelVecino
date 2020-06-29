@@ -11,6 +11,9 @@
     "apollo-boost": "^0.4.9",
     "apollo-client": "^2.6.10",
     "apollo-upload-client": "^13.0.0",
+    "dotenv": "^8.2.0",
+    "dotenv-webpack": "^1.8.0",
+    "env-cmd": "^10.1.0",
     "graphql": "^15.1.0",
     "graphql-tag": "^2.10.3",
     "react": "^16.13.1",
@@ -22,8 +25,8 @@
     "recoil": "^0.0.9"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "env-cmd react-scripts start",
+    "build": "env-cmd react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

@@ -11,7 +11,7 @@ import Admin from "./components/Admin";
 import './App.css';
 
 const client = new ApolloClient ({
-  link: createUploadLink({ uri: "http://77.228.3.75:4000/" }),
+  link: createUploadLink({ uri: process.env.REACT_APP_API_URL }),
   cache: new InMemoryCache()
 });
 
