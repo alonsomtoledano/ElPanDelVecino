@@ -13,6 +13,8 @@ const UPLOAD_FILE = gql`
   }
 `;
 
+const url = `${process.env.REACT_APP_API_URL.split([":"])[0]}:${process.env.REACT_APP_API_URL.split([":"])[1]}`;
+
 export const UploadFile = () => {
   const [uploadFile,  { data }] = useMutation(UPLOAD_FILE, {});
 
@@ -24,11 +26,21 @@ export const UploadFile = () => {
   );
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  return (
+  let field;
+  if (data) {
+    field = <img className="Img" src={url + data.uploadFile.url} alt={data.uploadFile.mimetype}/>
+  } else {
+    field =
     <div {...getRootProps()}>
       <input {...getInputProps()} />
-      {isDragActive ? <div className="Text">Suelta la imagen aquí</div> : <div className="Text">Arrastra una imagen o clicka para seleccionarla</div>}
-      {data ? <div>url: {data.uploadFile.url} mimetype: {data.uploadFile.mimetype} encoding: {data.uploadFile.encoding}</div> : null}
+      {isDragActive ? <div className="Text">Suelta la imagen aquí</div> : <div className="Text">Arrastra una imagen o haz click para seleccionarla</div>}
+    </div>
+  }
+  
+
+  return (
+    <div>
+      {field}
     </div>
   );
 };
