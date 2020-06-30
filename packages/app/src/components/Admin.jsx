@@ -7,7 +7,7 @@ import { adminModeAtom } from "../recoil/atoms";
 import Login from "./Login";
 import Signin from "./Signin";
 
-import { UploadFile } from "./UploadFile";
+import AddRecipe from "./AddRecipe";
 
 import AddIngredient from "./AddIngredient";
 import RemoveIngredient from "./RemoveIngredient";
@@ -40,7 +40,7 @@ const Admin = () => {
     } else if (adminMode === 2) {
         content = <Signin />
     } else if (adminMode === 3) {
-        content = <UploadFile />
+        content = <AddRecipe />
     } else if (adminMode === 5) {
         content = <AddIngredient />
     } else if (adminMode === 6) {

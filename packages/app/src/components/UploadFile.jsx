@@ -15,7 +15,7 @@ const UPLOAD_FILE = gql`
 
 const url = `${process.env.REACT_APP_API_URL.split([":"])[0]}:${process.env.REACT_APP_API_URL.split([":"])[1]}`;
 
-export const UploadFile = () => {
+const UploadFile = () => {
   const [uploadFile,  { data }] = useMutation(UPLOAD_FILE, {});
 
   const onDrop = useCallback(
@@ -36,7 +36,6 @@ export const UploadFile = () => {
       {isDragActive ? <div className="Text">Suelta la imagen aquí</div> : <div className="Text">Arrastra una imagen o haz click para seleccionarla</div>}
     </div>
   }
-  
 
   return (
     <div>
@@ -44,3 +43,5 @@ export const UploadFile = () => {
     </div>
   );
 };
+
+export default UploadFile;

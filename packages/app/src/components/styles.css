@@ -3,6 +3,11 @@
     justify-content: center;
 }
 
+.AddRecipe {
+    display: flex;
+    justify-content: center;
+}
+
 .Admin {
     display: flex;
     flex-direction: column;
@@ -61,6 +66,11 @@
 }
 
 .Signin {
+    display: flex;
+    justify-content: center;
+}
+
+.Step {
     display: flex;
     justify-content: center;
 }
