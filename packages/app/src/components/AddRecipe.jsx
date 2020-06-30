@@ -22,12 +22,11 @@ const AddRecipe = () => {
     let inputTitle;
     let inputDescription;
     let newStep;
-    let newNumStep = 0;
 
     const [, setAdminMode] = useRecoilState(adminModeAtom);
     const [error, setError] = useState(null);
-    const [steps, setSteps] = useState([<Step key={newNumStep}/>]);
-    const [numStep, setNumStep] = useState(1);
+    const [numStep, setNumStep] = useState(0);
+    const [steps, setSteps] = useState([<Step />]);
 
     const [addRecipe, { data }] = useMutation(ADD_RECIPE, {
         // refetchQueries: [{ query: INGREDIENTS }],
@@ -69,13 +68,11 @@ const AddRecipe = () => {
                 <div>
                     <div className="Text">Pasos</div>
                     <div className="Button" onClick={() => {
-                        newNumStep = numStep;
-                        newNumStep++;
-                        setNumStep(newNumStep);
-
                         newStep = steps;
-                        newStep.push(<Step key={newNumStep}/>)
+                        newStep.push(<Step />)
                         setSteps(newStep);
+
+                        setNumStep(numStep + 1);
                     }}>+</div>
                     {steps.map(step => {
                         return step;
