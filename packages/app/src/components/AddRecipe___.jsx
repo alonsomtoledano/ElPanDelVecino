@@ -14,45 +14,50 @@ const ADD_RECIPE = gql`
     mutation addRecipe($userid: ID!, $token: String!, $title: String!, $description: String!, $steps: [StepInput!]!, $ingredients: [ID!]!, $mainImage: FileInput!) {
         addRecipe(userid: $userid, token: $token, title: $title, description: $description, steps: $steps, ingredients: $ingredients, mainImage: $mainImage) {
             title
-            steps {
-                description
-                image {
-                    mimetype
-                }
-            }
-            ingredients {
-                _id
-            }
-            mainImage {
-                mimetype
-            }
         }
     }
 `;
 
 const AddRecipe = () => {
-    const [, setAdminMode] = useRecoilState(adminModeAtom);
-    const [updateSteps, setUpdateSteps] = useState(true);
-    const [stepList, setStepList] = useState([]);
-    // const [error, setError] = useState(null);
-
-    useEffect(() => {}, [updateSteps]);
 
     let mainImage;
     let inputTitle;
     let inputDescription;
-    const steps = [];
+    let recipeIngredients = [];
 
-    const [addRecipe, { data }] = useMutation(ADD_RECIPE, {
+    let newStep;
+
+    const [, setAdminMode] = useRecoilState(adminModeAtom);
+    const [error, setError] = useState(null);
+    const [numStep, setNumStep] = useState(0);
+    const [steps, setSteps] = useState([<Step />]);
+
+    const [addRecipe, { dataa }] = useMutation(ADD_RECIPE, {
         // refetchQueries: [{ query: INGREDIENTS }],
 
-        // onError(err) {
-        //     setError(err.message);
-        // }
+        onError(err) {
+            setError(err.message);
+        }
     })
 
+    const { data } = useQuery(INGREDIENTS, {
+        onError(err) {
+            setError(err.message);
+        }
+    });
+
+    useEffect(() => {}, [numStep])
+
+    let ingredients;
     if (data) {
-        console.log(data.addRecipe);
+        console.log(data.ingredients)
+        ingredients = data.ingredients.map(obj => {
+            return <IngredientRecipe name={obj.name} ingredientid={obj._id} recipeIngredients={recipeIngredients} />
+        })
+    }
+
+    if (dataa) {
+        console.log(dataa);
     }
 
     return (
@@ -63,14 +68,14 @@ const AddRecipe = () => {
                     inputTitle = document.getElementById("inputTitle").value;
                     inputDescription = document.getElementById("inputDescription").value;
                     addRecipe({ variables: { userid: localStorage.getItem("userid"), token: localStorage.getItem("token"),
-                        title: inputTitle, description: inputDescription, steps: steps, ingredients: ["5efcb5ca1009da06c45f2151"], mainImage: {url: "url", mimetype: "mimetype", encoding: "encoding"} }});
-                    // setError(null);
+                        title: inputTitle, description: inputDescription, steps: steps, ingredients: ingredients, mainImage: mainImage }});
+                    setError(null);
                 }}
             >
-                {/* <div>
+                <div>
                     <div className="Text">Imagen principal</div>
-                    <UploadFile image={mainImage}/>
-                </div> */}
+                    <UploadFile mainImage={mainImage}/>
+                </div>
 
                 <div>
                     <div className="Text">Título</div>
@@ -84,19 +89,27 @@ const AddRecipe = () => {
 
                 <div>
                     <div className="Text">Pasos</div>
-                    <Step steps={steps} numStep={0} />
-                    <Step steps={steps} numStep={1}/>
+                    <div className="Button" onClick={() => {
+                        newStep = steps;
+                        newStep.push(<Step />)
+                        setSteps(newStep);
+
+                        setNumStep(numStep + 1);
+                    }}>+</div>
+                    {steps.map(step => {
+                        return step;
+                    })}
                 </div>
 
-                {/* <div>
+                <div>
                     <div className="Text">Ingredientes</div>
                     {ingredients}
-                </div> */}
+                </div>
 
                 {/* {data ? <div className="Text">{data.addIngredient.name} añadida</div> : null} */}
-                {/* {error ? <div>{error}</div> : null} */}
+                {error ? <div>{error}</div> : null}
 
-                <button className="Button" type="submit">Añadir Receta</button>
+                <button className="Button" type="submit">Añadir receta</button>
 
                 <div className="Button" onClick={() => setAdminMode(0)}>Atrás</div>
 

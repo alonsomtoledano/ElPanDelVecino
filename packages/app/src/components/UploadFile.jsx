@@ -15,7 +15,9 @@ const UPLOAD_FILE = gql`
 
 const url = `${process.env.REACT_APP_API_URL.split([":"])[0]}:${process.env.REACT_APP_API_URL.split([":"])[1]}`;
 
-const UploadFile = () => {
+const UploadFile = props => {
+  let {image} = props;
+
   const [uploadFile,  { data }] = useMutation(UPLOAD_FILE, {});
 
   const onDrop = useCallback(
@@ -29,6 +31,7 @@ const UploadFile = () => {
   let field;
   if (data) {
     field = <img className="Img" src={url + data.uploadFile.url} alt={data.uploadFile.mimetype}/>
+    image = data.uploadFile
   } else {
     field =
     <div {...getRootProps()}>
